@@ -11,10 +11,25 @@ using SplitArray;
 
 namespace Test
 {
+    class Info:ICloneable
+    {
+        public int info {get; }
+        public int Result { set; get; }
+        public Info(int info)
+        {
+            this.info = info;
+        }
+
+        public object Clone()
+        {
+            return this.Clone();
+        }
+    }
     class Program
     {
-        static void Main(string[] args)
+        static void Start()
         {
+
             #region Addition
             Console.WriteLine("Addition");
             var result = Enumerable.Range(0, 10)
@@ -37,7 +52,7 @@ namespace Test
                 {
                     Console.WriteLine(y);
                 }
-                Console.WriteLine(new string('-',10));
+                Console.WriteLine(new string('-', 10));
             }
             #endregion
             Console.WriteLine(new string('.', 36));
@@ -50,7 +65,7 @@ namespace Test
                 {
                     Console.WriteLine(qqq);
                 }
-                Console.WriteLine(new string('-',30));
+                Console.WriteLine(new string('-', 30));
             }
             #endregion
             Console.WriteLine(new string('.', 36));
@@ -64,6 +79,52 @@ namespace Test
             #endregion
             Console.WriteLine(new string('.', 36));
             Console.ReadKey();
+        }
+        static int Split()
+        {
+            var result =  Enumerable.Range(1, 1000)
+                .Split(10)
+                .Select(x => Task<int>.Run(() => x.Sum()));
+            Task.WaitAll(result.ToArray());
+            return result.Select(x => x.Result).Sum();
+        }
+        static void Addition()
+        {
+            var result = new List<Info>()
+            {
+                new Info(123),new Info(2132)
+            };
+            var res = result.Addition(3).Select(x => Task.Run(() => {
+                x.Result = 1 * x.info;
+                return x;
+            }));
+            Task.WaitAll(res.ToArray());
+        }
+        static void Multiplication()
+        {
+            var result = new List<Info>()
+            {
+                new Info(123),new Info(2132)
+            };
+            var x = result.Multiplication(3);
+            List<Task> list = new List<Task>();
+            foreach (var item in x)
+            {
+                var task = Task.Run(() =>
+                {
+                    return item.Select(b =>
+                    {
+                        b.Result = b.info + 1;
+                        return b;
+                    });
+                });
+                list.Add(task);
+            }
+            Task.WaitAll(list.ToArray());
+        }
+        static void Main(string[] args)
+        {
+            Start();
         }
     }
 }
