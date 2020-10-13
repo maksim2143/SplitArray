@@ -124,7 +124,14 @@ namespace Test
         }
         static void Main(string[] args)
         {
-            Start();
+            List<string> ls = new List<string>() { "123" };
+            var result = ls.AdditionLazy(50).SplitLazy(20).SelectMany(v => v.Select(t=>t));
+            Console.ReadKey();
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }
+            Console.ReadKey();
         }
     }
 }

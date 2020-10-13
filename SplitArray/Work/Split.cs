@@ -9,6 +9,10 @@ namespace SplitArray.Work
 {
    public class Split
     {
+        public IEnumerable<IGrouping<int, T>> StartThread<T>(IEnumerable<T> enumerator, int count_split)
+        {
+            return this.Start(enumerator, count_split).ToList();
+        }
         public IEnumerable<IGrouping<int, T>> Start<T>(IEnumerable<T> enumerator,int count_split)
         {
             lock (obj)
@@ -19,9 +23,10 @@ namespace SplitArray.Work
                     if (count_split < count) count = 0;
                     count++;
                     return count;
-                }).ToList();
+                });
             }
         }
+
         object obj;
         public Split()
         {

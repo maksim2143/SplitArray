@@ -9,15 +9,22 @@ namespace SplitArray.Work
     {
         public IEnumerable<IEnumerable<T>> Start<T>(IEnumerable<T> enumerable, int count_multiplication) where T : ICloneable
         {
-            return enumerable.Select(x =>
+            lock (obj)
             {
-                List<T> list = new List<T>() { x };
-                for (int i = 1; i < count_multiplication; i++)
+                return enumerable.Select(x =>
                 {
-                    list.Add((T)x.Clone());
-                }
-                return list;
-            }).ToArray();
+                    List<T> list = new List<T>() { x };
+                    for (int i = 1; i < count_multiplication; i++)
+                    {
+                        list.Add((T)x.Clone());
+                    }
+                    return list;
+                });
+            }
+        }
+        public IEnumerable<IEnumerable<T>> StartThread<T>(IEnumerable<T> enumerable, int count_multiplication) where T : ICloneable
+        {
+            return this.Start(enumerable, count_multiplication).ToList();
         }
         object obj;
         public Multiplication()
