@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace SplitArray.Work
 {
-    class Addition
+   public class Addition
     {
         public IEnumerable<T> Start<T>(IEnumerable<T> enumerable,int count)where T : ICloneable
         {

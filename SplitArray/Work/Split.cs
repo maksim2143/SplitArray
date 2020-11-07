@@ -17,6 +17,7 @@ namespace SplitArray.Work
         {
             lock (obj)
             {
+                count_split--;
                 int count = 0;
                 return enumerator.GroupBy(x =>
                 {

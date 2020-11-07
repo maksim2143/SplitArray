@@ -124,8 +124,8 @@ namespace Test
         }
         static void Main(string[] args)
         {
-            List<string> ls = new List<string>() { "123" };
-            var result = ls.AdditionLazy(50).SplitLazy(20).SelectMany(v => v.Select(t=>t));
+            List<string> ls = Enumerable.Range(0, 100).Select(x => x.ToString()).ToList();
+            var result = ls.Split(-10);
             Console.ReadKey();
             foreach (var item in result)
             {
